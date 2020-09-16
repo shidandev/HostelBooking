@@ -26,7 +26,14 @@
         if(res.login)
         {
             privilege = res.user_data.type;
-            $(".user-btn").addClass("d-none");
+            if(privilege === 'admin')
+            {
+                $(".user-btn").addClass("d-none");
+            }
+            else{
+                $(".admin-btn").addClass("d-none");
+            }
+            
         }
         else{
             console.log("x login");

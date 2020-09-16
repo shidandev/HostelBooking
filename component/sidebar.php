@@ -5,11 +5,11 @@
 
     <button class="btn user-btn btn-block btn-outline-primary text-center btn-nav"><i class="fa fa-desktop"></i> <input value="index" type="hidden"> Dashboard</a></button>
     <button class="btn user-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-user"></i> <input value="profile" type="hidden"> My Profile</a></button>
-    <button class="btn user-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-file-o"></i> <input value="hostel-request" type="hidden"> Hostel Request</a></button>
+    <button class="btn user-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-file-o"></i> <input value="hostel-request" type="hidden"> Hostel Booking</a></button>
     
     <button class="btn admin-btn btn-block btn-outline-primary text-center btn-nav"><i class="fa fa-desktop"></i> <input value="index" type="hidden"> Dashboard</a></button>
     <button class="btn admin-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-user"></i> <input value="profile" type="hidden"> My Profile</a></button>
-    <button class="btn admin-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-file-o"></i> <input value="hostel-incoming-request" type="hidden"> Hostel Incoming Request</a></button>
+    <button class="btn admin-btn btn-block btn-outline-primary btn-nav"><i class="fa fa-file-o"></i> <input value="hostel-incoming-request" type="hidden"> Hostel Approval</a></button>
     
     <button class="btn btn-block btn-outline-primary btn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i>
         Log out

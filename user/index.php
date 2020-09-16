@@ -84,7 +84,7 @@
                             <input type="text" id="cur_room" class="form-control" aria-describedby="basic-addon1">
                         </div>
                     </div>
-                    <div class="row col-12">
+                    <!-- <div class="row col-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Price</span>
@@ -97,7 +97,7 @@
                                 <span class="input-group-text">Day</span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row col-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -123,7 +123,7 @@
                             <input readonly type="number" id="total_day" class="form-control" aria-describedby="basic-addon1">
                         </div>
                     </div>
-                    <div class="row col-12">
+                    <!-- <div class="row col-12">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Total Price</span>
@@ -133,7 +133,7 @@
                             </div>
                             <input readonly type="text" id="total_price" class="form-control" aria-describedby="basic-addon1">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row text-cente pt-3 pb-2">
                         <div class="col-6">
                             <button class="btn btn-danger btn-block">Reset</button>
@@ -178,52 +178,42 @@
                 console.log(diffDays);
                 cur_total_day_disp.val(diffDays);
 
-                if(cur_price != 0)
-                {
-                    cur_total_price_disp.val(((cur_price * diffDays)/100).toFixed(2));
+                if (cur_price != 0) {
+                    cur_total_price_disp.val(((cur_price * diffDays) / 100).toFixed(2));
                 }
             });
             $.post("../backend/session.php", function(res) {
                 console.log(res);
                 session = res;
+
+                $.post("../backend/check_request.php",{
+                    user_id:session.user_data.user_id
+                }, function(res2){
+                    if(res2.status === "ok")
+                    {   
+                        // console.log(res2);
+                        if(res2.data[0].count > 0 )
+                        {
+                            alert("You already booking hostel room");
+                            window.location.href = "hostel-request.php";
+                        }
+                        else{
+                            loadBlock();
+                        }
+                    }
+                },"json");
             }, "json");
 
-            $.post("../backend/block.php", function(res) {
 
-                    if (res.status == "ok") {
-                        let html = "";
-
-                        for (let i = 0; i < res.data.length; i++) {
-                            html += '<div class="card text-center block_btn btn btn-outline-info" style="width: 20%;">';
-                            html += '<input type="hidden"  value="' + res.data[i].block_id + '"> ' + res.data[i].name;
-                            html += '</div>';
-                        }
-
-                        $("#block_row").empty().append(html);
-                    }
-                }, "json")
-                .done(function() {
-                    $(".block_btn").click(function() {
-                        let node = $(this);
-                        let block_id = node.find("input").val();
-                        cur_block_disp.val(node[0].innerText);
-                        $(".block_btn").removeClass("active");
-                        node.addClass("active");
-                        cur_block = block_id;
-                        loadLevel(block_id);
-                    });
-                });
-
-            
             
             $("#btn_request").click(function() {
                 console.log(session);
 
                 $.post("../backend/request_room.php", {
-                    user_id:session.user_data.user_id,
+                    user_id: session.user_data.user_id,
                     room_id: cur_room,
-                    sdate:sdate.val(),
-                    edate:edate.val()
+                    sdate: sdate.val(),
+                    edate: edate.val()
                 }, function(res) {
                     if (res.status == "ok") {
                         window.location.href = "hostel-request.php";
@@ -231,7 +221,33 @@
                 }, "json");
             });
 
+            function loadBlock() {
+                $.post("../backend/block.php", function(res) {
 
+                        if (res.status == "ok") {
+                            let html = "";
+
+                            for (let i = 0; i < res.data.length; i++) {
+                                html += '<div class="card text-center block_btn btn btn-outline-info" style="width: 20%;">';
+                                html += '<input type="hidden"  value="' + res.data[i].block_id + '"> ' + res.data[i].name;
+                                html += '</div>';
+                            }
+
+                            $("#block_row").empty().append(html);
+                        }
+                    }, "json")
+                    .done(function() {
+                        $(".block_btn").click(function() {
+                            let node = $(this);
+                            let block_id = node.find("input").val();
+                            cur_block_disp.val(node[0].innerText);
+                            $(".block_btn").removeClass("active");
+                            node.addClass("active");
+                            cur_block = block_id;
+                            loadLevel(block_id);
+                        });
+                    });
+            }
             function loadLevel(block_id) {
                 $.post("../backend/level.php", {
                         block_id: block_id
@@ -326,9 +342,8 @@
                             cur_room = house_id;
                             cur_price_disp.val((cur_price / 100).toFixed(2));
 
-                            if(cur_total_day_disp.val() != 0)
-                            {
-                                cur_total_price_disp.val(((cur_price* cur_total_day_disp.val())/100).toFixed(2));
+                            if (cur_total_day_disp.val() != 0) {
+                                cur_total_price_disp.val(((cur_price * cur_total_day_disp.val()) / 100).toFixed(2));
                             }
                         });
                     });

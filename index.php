@@ -80,7 +80,7 @@
             }, "json");
 
             $("#btn_signup").click(function() {
-
+                window.location.href = "signup.php";
             });
 
             $("#btn_login").click(function() {

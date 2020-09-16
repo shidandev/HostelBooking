@@ -42,6 +42,7 @@
                         <table class="table" id="hostel_request_table">
                             <thead>
                                 <td>No</td>
+                                <td>Student Name</td>
                                 <td>Place</td>
                                 <td>Start Date</td>
                                 <td>End Date</td>
@@ -84,15 +85,18 @@
                             for (let i = 0; i < res.data.length; i++) {
                                 html +='    <tr>';
                                 html +='        <td>'+(i+1)+'</td>';
+                                html +='        <td>'+res.data[i].fname+'</td>';
                                 html +='        <td>'+res.data[i].name+'</td>';
                                 html +='        <td>'+res.data[i].sdate+'</td>';
                                 html +='        <td>'+res.data[i].edate+'</td>';
                                 html +='        <td>'+(res.data[i].status).toUpperCase()+'</td>';
                                 html +='        <td>';
                                 html +='            <div class="row">';
-
-                                html +='                <button class="btn btn-warning btn_approve"><input type="hidden" value="'+res.data[i].b_id+'">Approve</button>';
-                                html +='                <button class="btn btn-danger btn_disapprove"><input type="hidden" value="'+res.data[i].b_id+'">Disapprove</button>';
+                                html +='                <button class="btn btn-block btn-warning btn_approve room_pass_fx">Approve</button>';
+                                html +='                <button class="btn btn-block btn-warning btn_submit_approve room_pass_fx d-none"><input type="hidden" value="'+res.data[i].b_id+'">Submit</button>';
+                                html +='                <input type="text" placeholder="Room Password" class="d-none form-control room_pass room_pass_fx" >';
+                                html +='                <button class="btn btn-block btn-danger btn_disapprove"><input type="hidden" value="'+res.data[i].b_id+'">Disapprove</button>';
+                                
                                 html +='            </div>';
                                 
                                 html +='        </td>';
@@ -107,12 +111,21 @@
                         $("#hostel_request_table").dataTable();
 
                         $(".btn_approve").click(function(){
+                            $(this).addClass("d-none");
+                            $(this).parent().find(".room_pass_fx").removeClass("d-none");
+                        });
+
+                        $(".btn_submit_approve").click(function(){
+                            
+                           
                             if(confirm("Are you sure to approve this request?"))
                             {
                                 let b_id = $(this).find("input").val();
+                                let room_password = $(this).next().val();
 
                                 $.post("../backend/hostel_request_approve.php",{
                                     b_id:b_id,
+                                    password:room_password,
                                     type: 'approved'
                                 }, function(res){
                                     if(res.status === "ok")

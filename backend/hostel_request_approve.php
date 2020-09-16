@@ -9,6 +9,10 @@ if (isset($_REQUEST['b_id'])) {
 
     $b_id = $_REQUEST['b_id'];
     $type = $_REQUEST['type'];
+    if(isset($_REQUEST['password']))
+    {
+        $password = $_REQUEST['password'];
+    }
 
     $sql = "update booking set status = '".$type."' where b_id= '".$b_id."'";
     $stmt = $db->prepare($sql);
@@ -30,7 +34,7 @@ if (isset($_REQUEST['b_id'])) {
                     while ($row2 = $res2->fetch_assoc()) {
                         $room_id = $row2['room_id'];
                     }
-                    $sql3 = "update room set stat = '" . (($type == 'disapproved')? 'empty': $type) . "' where room_id = '" . $room_id . "'";
+                    $sql3 = "update room set password = '".(($type == 'disapproved')? '': $password) ."',stat = '" . (($type == 'disapproved')? 'empty': $type) . "' where room_id = '" . $room_id . "'";
                     // echo $sql3;
                     $stmt3 = $db->prepare($sql3);
                     $stmt3->execute();

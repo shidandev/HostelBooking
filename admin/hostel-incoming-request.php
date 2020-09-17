@@ -130,7 +130,7 @@
                                 }, function(res){
                                     if(res.status === "ok")
                                     {
-                                        alert("Succesfully to approve this request, please try again");
+                                        alert("Succesfully approve this request");
                                         window.location.reload();
                                     }
                                     else{
